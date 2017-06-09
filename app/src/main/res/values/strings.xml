@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MessUp</string>
+    <string name="title_activity_category">CategoryActivity</string>
+    <string name="tab_text_1">Contact</string>
+    <string name="tab_text_2">Numbers</string>
+    <string name="tab_text_3">Other</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="tips_permission_denied">You may have denied the permission of READING SMS, so this app can not work properly! Probably you will need to grant the permission in System Settings.</string>
+    <string name="txt_btn_get">I got it</string>
+    <string name="txt_title_sorry">Sorry</string>
 </resources>
