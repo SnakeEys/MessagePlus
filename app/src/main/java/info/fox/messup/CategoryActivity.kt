@@ -21,7 +21,7 @@ class CategoryActivity : AppCompatActivity() {
 
 
     private var mViewPager: ViewPager? = null
-    private val fragments = arrayOf(TabContactFragment.newInstance(), TabContactFragment.newInstance(), TabContactFragment.newInstance())
+    private val fragments = arrayOf(TabContactFragment.newInstance())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
