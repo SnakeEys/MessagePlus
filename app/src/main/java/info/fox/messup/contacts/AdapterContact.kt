@@ -1,14 +1,12 @@
 package info.fox.messup.contacts
 
 import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import info.fox.messup.R
-import info.fox.messup.domain.Message
 import info.fox.messup.listener.RecyclerItemClickListener
 import info.fox.messup.listener.RecyclerItemLongClickListener
 
@@ -16,13 +14,13 @@ import info.fox.messup.listener.RecyclerItemLongClickListener
  * Created by snake
  * on 17/6/9.
  */
-internal class AdapterContact(private var data: ArrayList<Message>) : RecyclerView.Adapter<AdapterContact.ViewHolder>() {
+internal class AdapterContact(private var data: List<*>) : RecyclerView.Adapter<AdapterContact.ViewHolder>() {
 
     private var mClickListener: RecyclerItemClickListener? = null
 
     private var mLongClickListener: RecyclerItemLongClickListener? = null
 
-    fun getData(): List<Message> {
+    fun getData(): List<*> {
         return data
     }
 
@@ -44,14 +42,7 @@ internal class AdapterContact(private var data: ArrayList<Message>) : RecyclerVi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val msg = data[position]
-        val person = msg.person ?: msg.address
-        person?.let {
-            holder.person.text = person
-        }
-        msg.body?.let {
-            holder.body.text = msg.body
-        }
-        holder.date.text = msg.date
+
     }
 
 

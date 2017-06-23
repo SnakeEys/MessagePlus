@@ -1,8 +1,11 @@
 package info.fox.messup
 
+import android.content.AsyncQueryHandler
+import android.content.ContentResolver
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
+import android.provider.Telephony
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -10,10 +13,15 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
+import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import info.fox.messup.contacts.TabContactFragment
+import java.text.SimpleDateFormat
+import android.provider.ContactsContract.PhoneLookup
+import android.provider.ContactsContract
+import android.net.Uri.withAppendedPath
+
+
 
 class CategoryActivity : AppCompatActivity() {
 
@@ -41,12 +49,16 @@ class CategoryActivity : AppCompatActivity() {
         mViewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         tabLayout.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(mViewPager))
 
-        val fab = findViewById(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener(View.OnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        })
 
+        val uri = Telephony.Threads.CONTENT_URI.buildUpon().appendQueryParameter("simple", "true").build()
+        Telephony.Threads.CONTENT_URI
+        val handler = InnerHandler(contentResolver)
+        handler.startQuery(1, null, uri, null, null, null, "date DESC")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -74,6 +86,22 @@ class CategoryActivity : AppCompatActivity() {
 
         override fun getCount(): Int {
             return fragments.size
+        }
+    }
+
+    private inner class InnerHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
+        override fun onQueryComplete(token: Int, cookie: Any?, cursor: Cursor?) {
+            cursor?.let {
+                val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm")
+                while (cursor.moveToNext()) {
+                    val _id = cursor.getLong(cursor.getColumnIndex(Telephony.Threads._ID))
+                    val date = cursor.getLong(cursor.getColumnIndex(Telephony.Threads.DATE))
+                    val count = cursor.getInt(cursor.getColumnIndex(Telephony.Threads.MESSAGE_COUNT))
+                    val recipient = cursor.getString(cursor.getColumnIndex(Telephony.Threads.RECIPIENT_IDS))
+                    val snippet = cursor.getString(cursor.getColumnIndex(Telephony.Threads.SNIPPET))
+                    Log.d("conversation", "ID = $_id, DATE = ${sdf.format(date)}, COUNT = $count, RECIPIENT_IDS = $recipient, SNIPPET = $snippet")
+                }
+            }
         }
     }
 }

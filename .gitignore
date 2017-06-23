@@ -10,4 +10,5 @@
 .externalNativeBuild
 /*/src/androidTest
 /*/src/test
-
+import-summary.txt
+platform_packages_apps_mmsmaster/

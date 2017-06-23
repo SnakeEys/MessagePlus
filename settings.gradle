@@ -1,1 +1,2 @@
 include ':app'
+// include ':platform_packages_apps_mmsmaster'
