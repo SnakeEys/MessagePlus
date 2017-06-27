@@ -3,7 +3,6 @@ package info.fox.messup
 import android.content.AsyncQueryHandler
 import android.content.ContentResolver
 import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.support.design.widget.TabLayout
@@ -17,10 +16,6 @@ import android.util.Log
 import android.view.MenuItem
 import info.fox.messup.contacts.TabContactFragment
 import java.text.SimpleDateFormat
-import android.provider.ContactsContract.PhoneLookup
-import android.provider.ContactsContract
-import android.net.Uri.withAppendedPath
-
 
 
 class CategoryActivity : AppCompatActivity() {
@@ -101,6 +96,7 @@ class CategoryActivity : AppCompatActivity() {
                     val snippet = cursor.getString(cursor.getColumnIndex(Telephony.Threads.SNIPPET))
                     Log.d("conversation", "ID = $_id, DATE = ${sdf.format(date)}, COUNT = $count, RECIPIENT_IDS = $recipient, SNIPPET = $snippet")
                 }
+                cursor.close()
             }
         }
     }
