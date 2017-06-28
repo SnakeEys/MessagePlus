@@ -1,6 +1,5 @@
 package info.fox.messup.contacts
 
-import android.content.AsyncQueryHandler
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -28,8 +27,6 @@ class TabContactFragment : Fragment(){
         }
     }
 
-    private val adapter = AdapterContact(arrayListOf<Any>())
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
     }
@@ -40,8 +37,8 @@ class TabContactFragment : Fragment(){
         val recycler = view.findViewById(R.id.rv_content) as RecyclerView
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        val adapter = ContactAdapter(activity)
         recycler.adapter = adapter
-        adapter.notifyDataSetChanged()
         return view
 
     }
