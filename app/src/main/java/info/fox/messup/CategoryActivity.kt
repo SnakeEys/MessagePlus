@@ -3,6 +3,7 @@ package info.fox.messup
 import android.content.AsyncQueryHandler
 import android.content.ContentResolver
 import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.support.design.widget.TabLayout
@@ -16,6 +17,7 @@ import android.util.Log
 import android.view.MenuItem
 import info.fox.messup.contacts.TabContactFragment
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CategoryActivity : AppCompatActivity() {
@@ -24,7 +26,21 @@ class CategoryActivity : AppCompatActivity() {
 
 
     private var mViewPager: ViewPager? = null
+    private var handler: InnerHandler? = null
     private val fragments = arrayOf(TabContactFragment.newInstance())
+
+    val ALL_THREADS_PROJECTION =
+            arrayOf(Telephony.Threads._ID, "date", "message_count", "recipient_ids", "snippet", "snippet_cs", "read", "error", "has_attachment")
+
+    private val ID = 0
+    private val DATE = 1
+    private val MESSAGE_COUNT = 2
+    private val RECIPIENT_IDS = 3
+    private val SNIPPET = 4
+    private val SNIPPET_CS = 5
+    private val READ = 6
+    private val ERROR = 7
+    private val HAS_ATTACHMENT = 8
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +60,18 @@ class CategoryActivity : AppCompatActivity() {
         mViewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
         tabLayout.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(mViewPager))
 
-
-        val uri = Telephony.Threads.CONTENT_URI.buildUpon().appendQueryParameter("simple", "true").build()
-        Telephony.Threads.CONTENT_URI
-        val handler = InnerHandler(contentResolver)
-        handler.startQuery(1, null, uri, null, null, null, "date DESC")
+        val uri = Uri
+                .parse("content://mms-sms/conversations")
+                .buildUpon()
+                .appendQueryParameter("simple", "true").build()
+        handler = InnerHandler(contentResolver)
+        handler?.startQuery(1, null, uri, ALL_THREADS_PROJECTION, null, null, "date DESC")
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        handler?.removeCallbacks(null)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -67,10 +85,6 @@ class CategoryActivity : AppCompatActivity() {
     }
 
 
-    /**
-     * A [FragmentPagerAdapter] that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
@@ -84,10 +98,26 @@ class CategoryActivity : AppCompatActivity() {
         }
     }
 
-    private inner class InnerHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
+
+    open class ConversationQueryHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
+        private var mDeleteToken: Int = 0
+
+        fun setDeleteToken(token: Int) {
+            mDeleteToken = token
+        }
+
+        /**
+         * Always call this super method from your overridden onDeleteComplete function.
+         */
+        override fun onDeleteComplete(token: Int, cookie: Any, result: Int) {
+
+        }
+    }
+
+    private class InnerHandler(cr: ContentResolver) : ConversationQueryHandler(cr) {
         override fun onQueryComplete(token: Int, cookie: Any?, cursor: Cursor?) {
             cursor?.let {
-                val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm")
+                val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.getDefault())
                 while (cursor.moveToNext()) {
                     val _id = cursor.getLong(cursor.getColumnIndex(Telephony.Threads._ID))
                     val date = cursor.getLong(cursor.getColumnIndex(Telephony.Threads.DATE))
