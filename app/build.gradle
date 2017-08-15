@@ -13,6 +13,14 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    sourceSets {
+//        main {
+//            jniLibs.srcDirs = ['libs']
+//        }
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
