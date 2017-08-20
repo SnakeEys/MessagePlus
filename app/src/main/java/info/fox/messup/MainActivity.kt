@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.MenuItem
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -26,9 +27,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val nav = findViewById(R.id.nav_view) as NavigationView
         nav.setNavigationItemSelectedListener(this)
+        nav.setCheckedItem(R.id.nav_conversations)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        Log.d(javaClass.simpleName, "action's: $item")
+        when (item.itemId) {
+            R.id.nav_conversations -> {}
+            R.id.nav_contacts -> {}
+            R.id.nav_unspecified -> {}
+            R.id.nav_archive -> {}
+            R.id.nav_setting -> {}
+            R.id.nav_share -> {}
+        }
+
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
@@ -38,8 +50,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
         }
-        super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 }

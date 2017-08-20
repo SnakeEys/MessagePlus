@@ -43,6 +43,7 @@ class StartUpActivity : AppCompatActivity() {
 
     private fun start() {
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
 }

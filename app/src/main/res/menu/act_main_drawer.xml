@@ -4,24 +4,24 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_conversations"
             android:icon="@drawable/ic_chat_black_24dp"
-            android:title="All Conversations"/>
+            android:title="@string/menu_conversations"/>
 
         <item android:id="@+id/nav_contacts"
             android:icon="@drawable/ic_contacts_black_24dp"
-            android:title="My Contacts" />
+            android:title="@string/menu_contacts" />
 
         <item android:id="@+id/nav_unspecified"
             android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="Unspecified" />
+            android:title="@string/menu_unspecified" />
 
         <item android:id="@+id/nav_archive"
             android:icon="@drawable/ic_archive_black_24dp"
-            android:title="Archived" />
+            android:title="@string/menu_archived" />
 
     </group>
 
 
-    <item android:title="More">
+    <item android:title="@string/menu_more">
         <menu>
             <item android:id="@+id/nav_setting"
                 android:icon="@drawable/ic_menu_manage"
@@ -29,7 +29,7 @@
 
             <item android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share..."/>
+                android:title="@string/menu_share"/>
         </menu>
     </item>
 
