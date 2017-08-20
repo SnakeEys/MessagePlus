@@ -9,4 +9,8 @@
     <string name="tips_permission_denied">You may have denied the permission of READING SMS, so this app can not work properly! Probably you will need to grant the permission in System Settings.</string>
     <string name="txt_btn_get">I got it</string>
     <string name="txt_title_sorry">Sorry</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

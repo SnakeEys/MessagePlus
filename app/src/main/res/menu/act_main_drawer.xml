@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_conversations"
+            android:icon="@drawable/ic_chat_black_24dp"
+            android:title="All Conversations"/>
+
+        <item android:id="@+id/nav_contacts"
+            android:icon="@drawable/ic_contacts_black_24dp"
+            android:title="My Contacts" />
+
+        <item android:id="@+id/nav_unspecified"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="Unspecified" />
+
+        <item android:id="@+id/nav_archive"
+            android:icon="@drawable/ic_archive_black_24dp"
+            android:title="Archived" />
+
+    </group>
+
+
+    <item android:title="More">
+        <menu>
+            <item android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/action_settings"/>
+
+            <item android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share..."/>
+        </menu>
+    </item>
+
+</menu>
