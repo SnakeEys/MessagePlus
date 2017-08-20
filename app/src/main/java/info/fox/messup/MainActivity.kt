@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val nav = findViewById(R.id.nav_view) as NavigationView
         nav.setNavigationItemSelectedListener(this)
         nav.setCheckedItem(R.id.nav_conversations)
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -37,7 +37,10 @@ class StartUpActivity : AppCompatActivity() {
         if (flag) {
             start()
         } else {
-            Snackbar.make(findViewById(R.id.cl), "Permission denied", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.cl), "Permission denied", Snackbar.LENGTH_LONG)
+                    .setAction(android.R.string.ok)
+                    {finish()}
+                    .show()
         }
     }
 
