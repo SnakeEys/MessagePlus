@@ -30,12 +30,12 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_drawer)
 
         val toolbar = findWidget<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val nav = findViewById(R.id.nav_view) as NavigationView
+        val nav = findWidget<NavigationView>(R.id.nav_view)
         nav.setNavigationItemSelectedListener(this)
         nav.setCheckedItem(R.id.nav_conversations)
     }
@@ -61,6 +61,11 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        findWidget<NavigationView>(R.id.nav_view).setCheckedItem(0)
     }
 
     override fun onBackPressed() {
