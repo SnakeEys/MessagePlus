@@ -23,12 +23,21 @@
         <activity
             android:name=".CategoryActivity"
             android:label="@string/title_activity_category"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="info.fox.messup.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".activity.ArchivedActivity"
+            android:label="Archived"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="info.fox.messup.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>
