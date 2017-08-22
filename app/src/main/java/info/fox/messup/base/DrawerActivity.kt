@@ -11,10 +11,13 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.util.SparseArray
 import android.view.MenuItem
 import android.view.View
+import info.fox.messup.MainActivity
 import info.fox.messup.R
+import info.fox.messup.activity.ArchivedActivity
 
 /**
  *<p>
@@ -63,6 +66,29 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
         }
     }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        Log.d(javaClass.simpleName, "action's: $item")
+        when (item.itemId) {
+            R.id.nav_conversations -> {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            R.id.nav_contacts -> {
+            }
+            R.id.nav_unspecified -> {
+            }
+            R.id.nav_archive -> {
+                startActivity(Intent(this, ArchivedActivity::class.java))
+            }
+            R.id.nav_setting -> {
+            }
+            R.id.nav_share -> {
+            }
+        }
+        val drawer = findWidget<DrawerLayout>(R.id.drawer_layout)
+        drawer.closeDrawer(GravityCompat.START)
+        return true
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         findWidget<NavigationView>(R.id.nav_view).setCheckedItem(0)
@@ -82,11 +108,6 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
         toggle = ActionBarDrawerToggle(this, drawer, findWidget<Toolbar>(R.id.toolbar),
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle!!)
-    }
-
-    protected fun closeDrawer() {
-        val drawer = findWidget<DrawerLayout>(R.id.drawer_layout)
-        drawer.closeDrawer(GravityCompat.START)
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -2,7 +2,6 @@ package info.fox.messup.activity
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.view.MenuItem
 import info.fox.messup.R
 import info.fox.messup.base.DrawerActivity
 
@@ -18,10 +17,5 @@ class ArchivedActivity : DrawerActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         findWidget<NavigationView>(R.id.nav_view).setCheckedItem(R.id.nav_archive)
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        closeDrawer()
-        return true
     }
 }
