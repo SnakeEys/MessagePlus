@@ -2,19 +2,15 @@ package info.fox.messup.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.IdRes
 import android.support.design.widget.NavigationView
 import android.support.v4.app.NavUtils
 import android.support.v4.app.TaskStackBuilder
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.util.SparseArray
 import android.view.MenuItem
-import android.view.View
 import info.fox.messup.MainActivity
 import info.fox.messup.R
 import info.fox.messup.activity.ArchivedActivity
@@ -25,10 +21,8 @@ import info.fox.messup.activity.ArchivedActivity
  * on 2017/8/21.
  *</p>
  */
-abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-
-    private val mWidgets = SparseArray<View>(10)
     protected var toggle: ActionBarDrawerToggle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,30 +34,11 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
 
         val nav = findWidget<NavigationView>(R.id.nav_view)
         nav.setNavigationItemSelectedListener(this)
-        nav.setCheckedItem(R.id.nav_conversations)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         toggle?.syncState()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            android.R.id.home -> {
-                val intent = NavUtils.getParentActivityIntent(this)
-                intent?.let {
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    if (NavUtils.shouldUpRecreateTask(this, intent)) {
-                        TaskStackBuilder.create(this).addNextIntentWithParentStack(intent)
-                    } else {
-                        NavUtils.navigateUpTo(this, intent)
-                    }
-                } ?: finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -99,6 +74,15 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
+            val intent = NavUtils.getParentActivityIntent(this)
+            intent?.let {
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                if (NavUtils.shouldUpRecreateTask(this, intent)) {
+                    TaskStackBuilder.create(this).addNextIntentWithParentStack(intent)
+                } else {
+                    NavUtils.navigateUpTo(this, intent)
+                }
+            } ?: finish()
             super.onBackPressed()
         }
     }
@@ -108,15 +92,5 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
         toggle = ActionBarDrawerToggle(this, drawer, findWidget<Toolbar>(R.id.toolbar),
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle!!)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T>findWidget(@IdRes id: Int): T {
-        var view = mWidgets.get(id)
-        if (view == null) {
-            view = findViewById(id)
-            mWidgets.put(id, view)
-        }
-        return view as T
     }
 }
