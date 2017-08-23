@@ -40,7 +40,7 @@ class MainActivity : DrawerActivity() {
         if (flag) {
             start()
         } else {
-            Snackbar.make(findViewById(R.id.cl), "Permission denied", Snackbar.LENGTH_LONG)
+            Snackbar.make(findWidget(R.id.fl_container), "Permission denied", Snackbar.LENGTH_LONG)
                     .setAction(android.R.string.ok) { }
                     .show()
         }
