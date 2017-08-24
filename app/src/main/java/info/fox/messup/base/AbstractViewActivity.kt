@@ -1,13 +1,16 @@
 package info.fox.messup.base
 
 import android.content.Intent
+import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.v4.app.NavUtils
 import android.support.v4.app.TaskStackBuilder
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.util.SparseArray
 import android.view.MenuItem
 import android.view.View
+import info.fox.messup.BuildConfig
 
 /**
  *<p>
@@ -16,8 +19,56 @@ import android.view.View
  *</p>
  */
 open class AbstractViewActivity : AppCompatActivity() {
+    protected val TAG = javaClass.simpleName
 
     private val mWidgets = SparseArray<View>(10)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        showActivityLog("$TAG onCreate}")
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        showActivityLog("$TAG onStart}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showActivityLog("$TAG onResume}")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        showActivityLog("$TAG onRestart}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        showActivityLog("$TAG onPause}")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        showActivityLog("$TAG onStop}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        showActivityLog("$TAG onDestroy}")
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
@@ -45,6 +96,12 @@ open class AbstractViewActivity : AppCompatActivity() {
             mWidgets.put(id, view)
         }
         return view as T
+    }
+
+    protected fun showActivityLog(log: String) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, log)
+        }
     }
 
 }

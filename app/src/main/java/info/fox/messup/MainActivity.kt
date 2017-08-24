@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import info.fox.messup.base.DrawerActivity
+import info.fox.messup.fragments.PlaceholderFragment
 
 class MainActivity : DrawerActivity() {
 
@@ -47,6 +48,8 @@ class MainActivity : DrawerActivity() {
     }
 
     fun start() {
-
+        val t = supportFragmentManager.beginTransaction()
+        t.replace(R.id.fl_container, PlaceholderFragment.newInstance("Main Page"), TAG)
+        t.commit()
     }
 }
