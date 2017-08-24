@@ -12,6 +12,8 @@ import android.view.MenuItem
 import info.fox.messup.MainActivity
 import info.fox.messup.R
 import info.fox.messup.activity.ArchivedActivity
+import info.fox.messup.activity.ContactsActivity
+import info.fox.messup.activity.UnspecifiedActivity
 
 /**
  *<p>
@@ -40,8 +42,8 @@ abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigat
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.d(javaClass.simpleName, "action's: $item")
         val nav = findWidget<NavigationView>(R.id.nav_view)
+        showActivityLog("selected $item")
         if (nav.menu.findItem(item.itemId).isChecked) {
             Log.d(javaClass.simpleName, "$item has been checked")
             return true
@@ -51,8 +53,10 @@ abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigat
                 startActivity(Intent(this, MainActivity::class.java))
             }
             R.id.nav_contacts -> {
+                startActivity(Intent(this, ContactsActivity::class.java))
             }
             R.id.nav_unspecified -> {
+                startActivity(Intent(this, UnspecifiedActivity::class.java))
             }
             R.id.nav_archive -> {
                 startActivity(Intent(this, ArchivedActivity::class.java))

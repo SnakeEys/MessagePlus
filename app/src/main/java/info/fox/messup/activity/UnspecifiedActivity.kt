@@ -6,19 +6,13 @@ import info.fox.messup.R
 import info.fox.messup.base.DrawerActivity
 import info.fox.messup.fragments.PlaceholderFragment
 
-/**
- *<p>
- * Created by user
- * on 2017/8/22.
- *</p>
- */
-class ArchivedActivity : DrawerActivity() {
+class UnspecifiedActivity : DrawerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val nav = findWidget<NavigationView>(R.id.nav_view)
-        val title = nav.menu.findItem(R.id.nav_archive).title.toString()
+        val title = nav.menu.findItem(R.id.nav_unspecified).title.toString()
         val t = supportFragmentManager.beginTransaction()
         t.replace(R.id.fl_container, PlaceholderFragment.newInstance(title), TAG)
         t.commit()
