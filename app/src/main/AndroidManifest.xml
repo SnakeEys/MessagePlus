@@ -19,14 +19,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".activity.ArchivedActivity"
-            android:label="Archived" />
-        <activity android:name=".activity.ContactsActivity"
-            android:label="Contacts"/>
-        <activity android:name=".activity.UnspecifiedActivity"
-            android:label="Unspecified"/>
+            android:label="Archived"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".activity.ContactsActivity"
+            android:label="Contacts"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".activity.UnspecifiedActivity"
+            android:label="Unspecified"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".CategoryActivity"
             android:label="@string/title_activity_category" />

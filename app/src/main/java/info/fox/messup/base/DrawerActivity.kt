@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
@@ -23,7 +22,7 @@ import info.fox.messup.activity.UnspecifiedActivity
  */
 abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    protected var toggle: ActionBarDrawerToggle? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +35,6 @@ abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigat
         nav.setNavigationItemSelectedListener(this)
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        toggle?.syncState()
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val nav = findWidget<NavigationView>(R.id.nav_view)
         showActivityLog("selected $item")
@@ -50,7 +44,12 @@ abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigat
         }
         when (item.itemId) {
             R.id.nav_conversations -> {
-                startActivity(Intent(this, MainActivity::class.java))
+                if (this is MainActivity) {
+
+                } else {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
             }
             R.id.nav_contacts -> {
                 startActivity(Intent(this, ContactsActivity::class.java))
@@ -83,12 +82,5 @@ abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigat
         } else {
             super.onBackPressed()
         }
-    }
-
-    protected fun setUpDrawer() {
-        val drawer = findWidget<DrawerLayout>(R.id.drawer_layout)
-        toggle = ActionBarDrawerToggle(this, drawer, findWidget<Toolbar>(R.id.toolbar),
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer.addDrawerListener(toggle!!)
     }
 }

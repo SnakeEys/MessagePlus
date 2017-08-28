@@ -13,6 +13,8 @@ class ContactsActivity : DrawerActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val nav = findWidget<NavigationView>(R.id.nav_view)
         val title = nav.menu.findItem(R.id.nav_contacts).title.toString()
+
+        nav.setCheckedItem(R.id.nav_contacts)
         val t = supportFragmentManager.beginTransaction()
         t.replace(R.id.fl_container, PlaceholderFragment.newInstance(title), TAG)
         t.commit()

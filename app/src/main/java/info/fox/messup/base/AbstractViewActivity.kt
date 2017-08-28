@@ -25,38 +25,38 @@ open class AbstractViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showActivityLog("$TAG onCreate}")
+        showActivityLog("$TAG $this onCreate}")
 
     }
 
     override fun onStart() {
         super.onStart()
-        showActivityLog("$TAG onStart}")
+        showActivityLog("$TAG $this onStart}")
     }
 
     override fun onResume() {
         super.onResume()
-        showActivityLog("$TAG onResume}")
+        showActivityLog("$TAG $this onResume}")
     }
 
     override fun onRestart() {
         super.onRestart()
-        showActivityLog("$TAG onRestart}")
+        showActivityLog("$TAG $this onRestart}")
     }
 
     override fun onPause() {
         super.onPause()
-        showActivityLog("$TAG onPause}")
+        showActivityLog("$TAG $this onPause}")
     }
 
     override fun onStop() {
         super.onStop()
-        showActivityLog("$TAG onStop}")
+        showActivityLog("$TAG $this onStop}")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        showActivityLog("$TAG onDestroy}")
+        showActivityLog("$TAG $this onDestroy}")
     }
 
 
