@@ -3,6 +3,8 @@ package info.fox.messup.base
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.NavUtils
+import android.support.v4.app.TaskStackBuilder
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
@@ -65,7 +67,6 @@ abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigat
             R.id.nav_share -> {
             }
         }
-        nav.setCheckedItem(item.itemId)
         val drawer = findWidget<DrawerLayout>(R.id.drawer_layout)
         drawer.closeDrawer(GravityCompat.START)
         return true
@@ -80,6 +81,15 @@ abstract class DrawerActivity : AbstractViewActivity(), NavigationView.OnNavigat
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
+            val intent = NavUtils.getParentActivityIntent(this)
+            intent?.let {
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                if (NavUtils.shouldUpRecreateTask(this, intent)) {
+                    TaskStackBuilder.create(this).addNextIntentWithParentStack(intent)
+                } else {
+                    NavUtils.navigateUpTo(this, intent)
+                }
+            }?:
             super.onBackPressed()
         }
     }

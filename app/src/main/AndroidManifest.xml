@@ -21,19 +21,19 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ArchivedActivity"
             android:label="Archived"
-            android:launchMode="singleInstance" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".activity.ContactsActivity"
             android:label="Contacts"
-            android:launchMode="singleInstance" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".activity.UnspecifiedActivity"
             android:label="Unspecified"
-            android:launchMode="singleInstance" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".CategoryActivity"
             android:label="@string/title_activity_category" />
