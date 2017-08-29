@@ -12,8 +12,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
+import info.fox.messup.activity.ConversationsFragment
 import info.fox.messup.base.DrawerActivity
-import info.fox.messup.fragments.PlaceholderFragment
 
 class MainActivity : DrawerActivity() {
 
@@ -64,10 +64,10 @@ class MainActivity : DrawerActivity() {
     }
 
     private fun start() {
-        val nav = findWidget<NavigationView>(R.id.nav_view)
-        val title = nav.menu.findItem(R.id.nav_conversations).title.toString()
+        // val nav = findWidget<NavigationView>(R.id.nav_view)
+        // val title = nav.menu.findItem(R.id.nav_conversations).title.toString()
         val t = supportFragmentManager.beginTransaction()
-        t.replace(R.id.fl_container, PlaceholderFragment.newInstance(title), TAG)
+        t.replace(R.id.fl_container, ConversationsFragment.newInstance(), TAG)
         t.commit()
     }
 
