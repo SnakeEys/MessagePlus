@@ -1,10 +1,16 @@
 package info.fox.messup
 
 import android.Manifest
+import android.app.LoaderManager
+import android.content.CursorLoader
 import android.content.Intent
+import android.content.Loader
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Telephony
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
@@ -15,7 +21,7 @@ import android.support.v7.widget.Toolbar
 import info.fox.messup.activity.ConversationsFragment
 import info.fox.messup.base.DrawerActivity
 
-class MainActivity : DrawerActivity() {
+class MainActivity : DrawerActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     private val CODE_PERMISSION_READ_SMS = 1
     private var toggle: ActionBarDrawerToggle? = null
@@ -76,4 +82,33 @@ class MainActivity : DrawerActivity() {
         val nav = findWidget<NavigationView>(R.id.nav_view)
         nav.setCheckedItem(R.id.nav_conversations)
     }
+
+    override fun onResume() {
+        super.onResume()
+        loaderManager.initLoader(0, null, this)
+    }
+
+    override fun onLoaderReset(loader: Loader<Cursor>?) {
+
+    }
+
+    override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
+
+    }
+
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> = when (id) {
+        0 -> {
+            val uri = Uri
+                    .parse("content://mms-sms/conversations")
+                    .buildUpon()
+                    .appendQueryParameter("simple", "true").build()
+            CursorLoader(this, uri, ALL_THREADS_PROJECTION, null, null, "date desc")
+        }
+
+        else -> throw UnsupportedOperationException("Unknown loader $id")
+    }
+
+    private val ALL_THREADS_PROJECTION =
+            arrayOf(Telephony.Threads._ID, "date", "message_count", "recipient_ids", "snippet", "snippet_cs", "read", "error", "has_attachment")
+
 }
