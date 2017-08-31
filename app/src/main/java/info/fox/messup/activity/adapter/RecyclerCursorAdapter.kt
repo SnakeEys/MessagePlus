@@ -20,7 +20,7 @@ abstract class RecyclerCursorAdapter<VH : RecyclerCursorAdapter.CursorViewHolder
     protected var mCursorAdapter: CursorAdapter? = null
 
     open fun setCursorAdapter(cursor: Cursor?, flags: Int, @LayoutRes resource: Int) {
-        mCursorAdapter = InnerAdapter(context, cursor, flags, resource, holder)
+        mCursorAdapter = InnerAdapter(context, cursor, flags, resource)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
@@ -40,7 +40,7 @@ abstract class RecyclerCursorAdapter<VH : RecyclerCursorAdapter.CursorViewHolder
         notifyDataSetChanged()
     }
 
-    private class InnerAdapter<out VH: CursorViewHolder>(context: Context, cursor: Cursor?, flags: Int, @LayoutRes val resource: Int, val holder: VH? = null) : CursorAdapter(context, cursor, flags) {
+    private inner class InnerAdapter(context: Context, cursor: Cursor?, flags: Int, @LayoutRes val resource: Int) : CursorAdapter(context, cursor, flags) {
         override fun newView(context: Context?, cursor: Cursor?, parent: ViewGroup?): View {
             return LayoutInflater.from(context).inflate(resource, parent, false)
         }
