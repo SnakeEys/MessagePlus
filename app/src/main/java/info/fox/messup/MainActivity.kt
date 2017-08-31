@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import info.fox.messup.activity.ConversationsFragment
 import info.fox.messup.base.DrawerActivity
 
@@ -93,6 +94,13 @@ class MainActivity : DrawerActivity(), LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
+        data?.let {
+            Log.d(TAG, "data: $data")
+            val fragment = supportFragmentManager.findFragmentByTag(TAG)
+            if (fragment is ConversationsFragment) {
+                fragment.updateData(it)
+            }
+        }
 
     }
 
