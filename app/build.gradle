@@ -21,9 +21,24 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword "android"
+            keyAlias "messup"
+            keyPassword "android"
+        }
+    }
+
     buildTypes {
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
