@@ -86,7 +86,16 @@ class MainActivity : DrawerActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onResume() {
         super.onResume()
-        loaderManager.initLoader(0, null, this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val sms = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
+            val contacts = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+            if (sms != PackageManager.PERMISSION_GRANTED || contacts != PackageManager.PERMISSION_GRANTED) {
+            } else {
+                loaderManager.initLoader(0, null, this)
+            }
+        } else {
+            loaderManager.initLoader(0, null, this)
+        }
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
