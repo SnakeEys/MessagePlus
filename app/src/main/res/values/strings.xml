@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MessUp</string>
     <string name="title_activity_category">CategoryActivity</string>
@@ -19,4 +20,12 @@
     <string name="menu_archived">Archived</string>
     <string name="menu_more">More</string>
     <string name="menu_share">Share</string>
+
+
+    <!-- platform_packages_apps_mms strings res start-->
+
+    <!-- Subject to display in the conversation list if there is no subject -->
+    <string name="no_subject_view">(No subject)</string>
+
+
 </resources>
