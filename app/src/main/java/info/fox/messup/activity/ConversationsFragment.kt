@@ -3,6 +3,7 @@ package info.fox.messup.activity
 import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -34,7 +35,10 @@ class ConversationsFragment : BasicFragment(), SwipeRefreshLayout.OnRefreshListe
         val view = inflater.inflate(R.layout.fragment_conversations, container, false)
         mSwipe = view.findWidget(R.id.sr_container)
         mSwipe?.setOnRefreshListener(this)
-        mSwipe?.setColorSchemeColors(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorPrimaryLight)
+        val colorPrimary = ContextCompat.getColor(activity, R.color.colorPrimary)
+        val colorPrimaryDark = ContextCompat.getColor(activity, R.color.colorPrimaryDark)
+        val colorAccent = ContextCompat.getColor(activity, R.color.colorAccent)
+        mSwipe?.setColorSchemeColors(colorPrimary, colorPrimaryDark, colorAccent)
         val recycler = view.findWidget<RecyclerView>(R.id.rv_content)
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
