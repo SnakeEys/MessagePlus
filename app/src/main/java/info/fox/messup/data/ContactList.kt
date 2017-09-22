@@ -104,5 +104,21 @@ class ContactList : ArrayList<Contact>() {
             }
             return list
         }
+
+        /**
+         * Returns a ContactList for the corresponding recipient ids passed in. This method will
+         * create the contact if it doesn't exist, and would inject the recipient id into the contact.
+         */
+        fun getByIds(spaceSepIds: String, canBlock: Boolean): ContactList {
+            val list = ContactList()
+            for (entry in RecipientIdCache.getAddresses(spaceSepIds)) {
+                if (!TextUtils.isEmpty(entry.number)) {
+                    val contact = Contact.get(entry.number, canBlock)
+                    contact.mRecipientId = entry.id
+                    list.add(contact)
+                }
+            }
+            return list
+        }
     }
 }

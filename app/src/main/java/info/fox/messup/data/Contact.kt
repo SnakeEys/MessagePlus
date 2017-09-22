@@ -21,7 +21,11 @@ class Contact {
     private var mNameAndNumber: String? = null   // for display, e.g. Fred Flintstone <670-782-1123>
     private var mNumberIsModified: Boolean = false // true if the number is modified
 
-    private var mRecipientId: Long = 0       // used to find the Recipient cache entry
+    var mRecipientId: Long = 0       // used to find the Recipient cache entry
+        @Synchronized
+        set(value) {
+
+        }
     private var mLabel: String? = null
     private var mPersonId: Long = 0
     private var mPresenceResId: Int = 0      // TODO: make this a state instead of a res ID
@@ -55,7 +59,7 @@ class Contact {
 
 
     companion object {
-        fun get(number: String, canBlock: Boolean): Contact {
+        fun get(number: String, canBlock: Boolean): Contact? {
             return Contact()
         }
 
