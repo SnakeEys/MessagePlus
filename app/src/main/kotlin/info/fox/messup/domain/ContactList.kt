@@ -1,8 +1,8 @@
-package info.fox.messup.data
+package info.fox.messup.domain
 
-import android.net.Uri
 import android.os.Parcelable
 import android.text.TextUtils
+import info.fox.messup.data.Contact
 
 /**
  * Created by user on 2017/7/4.
