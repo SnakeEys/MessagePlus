@@ -32,12 +32,12 @@ class Conversation(val context: Context) {
     // multi-operation such as delete.
 
     init {
-
+        mRecipients = ContactList()
     }
 
     private constructor(context: Context, threadId: Long = 0, allowQuery: Boolean = false): this(context) {
         if (!loadFromThreadId(threadId, allowQuery)) {
-//            mRecipients = ContactList()
+            mRecipients = ContactList()
         }
     }
 
