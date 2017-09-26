@@ -12,7 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import info.fox.messup.R
-import info.fox.messup.activity.adapter.ConversationAdatper
+import info.fox.messup.activity.adapter.ConversationAdapter
 import info.fox.messup.base.BasicFragment
 import info.fox.messup.base.findWidget
 
@@ -22,7 +22,7 @@ import info.fox.messup.base.findWidget
  */
 class ConversationsFragment : BasicFragment(), SwipeRefreshLayout.OnRefreshListener {
 
-    private var mAdapter: ConversationAdatper? = null
+    private var mAdapter: ConversationAdapter? = null
     private var mSwipe: SwipeRefreshLayout? = null
 
 
@@ -42,7 +42,7 @@ class ConversationsFragment : BasicFragment(), SwipeRefreshLayout.OnRefreshListe
         val recycler = view.findWidget<RecyclerView>(R.id.rv_content)
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        mAdapter = ConversationAdatper(activity)
+        mAdapter = ConversationAdapter(activity)
         recycler.adapter = mAdapter
         return view
     }

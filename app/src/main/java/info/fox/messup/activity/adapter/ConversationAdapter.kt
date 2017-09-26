@@ -2,6 +2,7 @@ package info.fox.messup.activity.adapter
 
 import android.content.Context
 import android.database.Cursor
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,7 +16,7 @@ import java.util.*
  * Created by
  * snake on 2017/8/31.
  */
-class ConversationAdatper(context: Context) : RecyclerCursorAdapter<ConversationAdatper.ConversationHolder>(context) {
+class ConversationAdapter(context: Context) : RecyclerCursorAdapter<ConversationAdapter.ConversationHolder>(context) {
 
 
     init {
@@ -41,11 +42,11 @@ class ConversationAdatper(context: Context) : RecyclerCursorAdapter<Conversation
 
         override fun bindView(context: Context, cursor: Cursor) {
             val conversation = Conversation.from(context, cursor)
-            conversation.getRecipients()
             date.text = sdf.format(conversation.getDate())
             body.text = conversation.getSnippet()
             count.text = conversation.getMessageCount().toString()
             person.text = conversation.getRecipients()?.formatNames(", ")
+            Log.d("ConversationAdapter", "conversation data: ${conversation.getRecipients()?.formatNames(", ")}")
         }
 
     }
