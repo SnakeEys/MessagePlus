@@ -45,7 +45,7 @@ class ConversationAdatper(context: Context) : RecyclerCursorAdapter<Conversation
             date.text = sdf.format(conversation.getDate())
             body.text = conversation.getSnippet()
             count.text = conversation.getMessageCount().toString()
-            person.text = conversation.getRecipients()?.formatnames(", ")
+            person.text = conversation.getRecipients()?.formatNames(", ")
         }
 
     }

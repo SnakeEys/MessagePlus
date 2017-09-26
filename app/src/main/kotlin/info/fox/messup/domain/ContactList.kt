@@ -1,6 +1,5 @@
 package info.fox.messup.domain
 
-import android.os.Parcelable
 import android.text.TextUtils
 
 /**
@@ -11,7 +10,7 @@ class ContactList : ArrayList<Contact>() {
 
 
 
-    fun formatnames(separator: String): String {
+    fun formatNames(separator: String): String {
         val names = arrayOfNulls<String>(size)
         var i = 0
         forEach {

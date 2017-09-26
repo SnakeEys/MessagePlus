@@ -1,2 +1,2 @@
 include ':app'
-//include ':platform_packages_apps_mms'
+include ':platform_packages_apps_mms'
