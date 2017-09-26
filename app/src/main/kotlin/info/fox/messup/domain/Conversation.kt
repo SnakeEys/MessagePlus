@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.provider.Telephony
 import android.text.TextUtils
 import android.util.Log
@@ -15,7 +16,7 @@ import info.fox.messup.R
  * Created by
  * snake on 2017/9/23.
  */
-class Conversation(val context: Context) {
+data class Conversation(val context: Context) {
 
     // The thread ID of this conversation.  Can be zero in the case of a
     // new conversation where the recipient set is changing as the user
@@ -47,7 +48,11 @@ class Conversation(val context: Context) {
     }
 
     @Synchronized fun getUri(threadId: Long): Uri {
-        val uri = Uri.withAppendedPath(Telephony.MmsSms.CONTENT_URI, "conversations")
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Uri.withAppendedPath(Telephony.MmsSms.CONTENT_URI, "conversations")
+        } else {
+            Uri.withAppendedPath(Uri.parse("content://mms-sms/"), "conversations")
+        }
         return ContentUris.withAppendedId(uri, threadId)
     }
 

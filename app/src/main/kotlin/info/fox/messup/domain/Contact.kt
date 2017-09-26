@@ -11,11 +11,11 @@ import java.nio.CharBuffer
  * Created by
  * snake on 2017/9/25.
  */
-class Contact() {
-
-    private var mContactMethodId: Long = 0   // Id in phone or email Uri returned by provider of current
+data class Contact(private var mContactMethodId: Long = 0) {
+    // Id in phone or email Uri returned by provider of current
     // Contact, -1 is invalid. e.g. contact method id is 20 when
     // current contact has phone content://.../phones/20.
+
     private var mContactMethodType: Int = 0
     private var mNumber: String? = null
     private var mNumberE164: String? = null
