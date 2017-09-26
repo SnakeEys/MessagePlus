@@ -2,6 +2,7 @@ package info.fox.messup.domain
 
 import android.content.AsyncQueryHandler
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
@@ -43,6 +44,40 @@ class Conversation(val context: Context) {
 
     private constructor(context: Context, cursor: Cursor, allowQuery: Boolean = false): this(context) {
         fillFromCursor(context, this, cursor, allowQuery)
+    }
+
+    @Synchronized fun getUri(threadId: Long): Uri {
+        val uri = Uri.withAppendedPath(Telephony.MmsSms.CONTENT_URI, "conversations")
+        return ContentUris.withAppendedId(uri, threadId)
+    }
+
+    @Synchronized fun getThreadId() = mThreadId
+
+    @Synchronized fun setRecipients(list: ContactList) {
+        mRecipients = list
+        mThreadId = 0
+    }
+
+    @Synchronized fun getRecipients() = mRecipients
+
+    @Synchronized fun getDate() = mDate
+
+    @Synchronized fun getMessageCount() = mMessageCount
+
+    @Synchronized fun setMessageCount(cnt: Int) {
+        mMessageCount = cnt
+    }
+
+    @Synchronized fun getSnippet() = mSnippet
+
+    @Synchronized fun hasAttachment() = mHasAttachment
+
+    @Synchronized fun hasError() = mHasError
+
+    @Synchronized fun isChecked() = mIsChecked
+
+    @Synchronized fun setIsChecked(isChecked: Boolean) {
+        mIsChecked = isChecked
     }
 
     private fun loadFromThreadId(threadId: Long, allowQuery: Boolean): Boolean {

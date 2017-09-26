@@ -31,6 +31,7 @@
         android:textColor="@color/colorPrimary"
         android:layout_below="@id/tv_person"
         android:maxLines="2"
+        android:ellipsize="end"
         android:text="@string/app_name"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginStart="@dimen/dp_8"

@@ -2,13 +2,12 @@ package info.fox.messup.activity.adapter
 
 import android.content.Context
 import android.database.Cursor
-import android.provider.Telephony
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import info.fox.messup.R
+import info.fox.messup.domain.Conversation
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,17 +39,13 @@ class ConversationAdatper(context: Context) : RecyclerCursorAdapter<Conversation
 
         private val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.getDefault())
 
-        override fun bindView(cursor: Cursor) {
-            val _id = cursor.getLong(cursor.getColumnIndex(Telephony.Threads._ID))
-            val date = cursor.getLong(cursor.getColumnIndex(Telephony.Threads.DATE))
-            val count = cursor.getInt(cursor.getColumnIndex(Telephony.Threads.MESSAGE_COUNT))
-            val recipient = cursor.getString(cursor.getColumnIndex(Telephony.Threads.RECIPIENT_IDS))
-            val snippet = cursor.getString(cursor.getColumnIndex(Telephony.Threads.SNIPPET))
-            this.count.text = count.toString()
-            this.person.text = recipient
-            this.body.text = snippet
-            this.date.text = sdf.format(date)
-            Log.d("conversation", "ID = $_id, DATE = ${sdf.format(date)}, COUNT = $count, RECIPIENT_IDS = $recipient, SNIPPET = $snippet")
+        override fun bindView(context: Context, cursor: Cursor) {
+            val conversation = Conversation.from(context, cursor)
+            conversation.getRecipients()
+            date.text = sdf.format(conversation.getDate())
+            body.text = conversation.getSnippet()
+            count.text = conversation.getMessageCount().toString()
+            person.text = conversation.getRecipients()?.formatnames(", ")
         }
 
     }

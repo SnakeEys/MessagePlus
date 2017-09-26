@@ -72,6 +72,8 @@ class Contact() {
         mNumberIsModified = true
     }
 
+    @Synchronized fun getName() = if (TextUtils.isEmpty(mName)) mNumber else mName
+
     private fun notSynchronizedUpdateNameAndNumber() {
         mNameAndNumber = formatNameAndNumber(mName!!, mNumber!!, mNumberE164!!)
     }

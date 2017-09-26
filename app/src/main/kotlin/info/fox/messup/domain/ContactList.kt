@@ -11,6 +11,15 @@ class ContactList : ArrayList<Contact>() {
 
 
 
+    fun formatnames(separator: String): String {
+        val names = arrayOfNulls<String>(size)
+        var i = 0
+        forEach {
+            names[i++] = it.getName()
+        }
+        return TextUtils.join(separator, names)
+    }
+
 
     override fun equals(other: Any?): Boolean {
         try {
