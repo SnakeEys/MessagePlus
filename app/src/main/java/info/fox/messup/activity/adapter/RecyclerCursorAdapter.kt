@@ -45,14 +45,14 @@ abstract class RecyclerCursorAdapter<VH : RecyclerCursorAdapter.CursorViewHolder
             return LayoutInflater.from(context).inflate(resource, parent, false)
         }
 
-        override fun bindView(view: View?, context: Context?, cursor: Cursor) {
-            holder?.bindView(cursor)
+        override fun bindView(view: View?, context: Context, cursor: Cursor) {
+            holder?.bindView(context, cursor)
         }
     }
 
 
     abstract class CursorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        abstract fun bindView(cursor: Cursor)
+        abstract fun bindView(context: Context, cursor: Cursor)
     }
 }

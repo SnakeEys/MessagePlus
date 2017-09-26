@@ -40,7 +40,7 @@ class ContactList : ArrayList<Contact>() {
             val list = ContactList()
             for (entry in RecipientIdCache.getAddresses(spaceSepIds)) {
                 if (!TextUtils.isEmpty(entry.number)) {
-                    val contact = Contact.get(entry.number, canBlock)
+                    val contact = Contact[entry.number, canBlock]
                     contact.setRecipientId(entry.id)
                     list.add(contact)
                 }

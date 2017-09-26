@@ -3,6 +3,7 @@ package info.fox.messup.domain
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.telephony.PhoneNumberUtils
 import android.text.TextUtils
 import java.nio.CharBuffer
 
@@ -10,7 +11,7 @@ import java.nio.CharBuffer
  * Created by
  * snake on 2017/9/25.
  */
-class Contact {
+class Contact() {
 
     private var mContactMethodId: Long = 0   // Id in phone or email Uri returned by provider of current
     // Contact, -1 is invalid. e.g. contact method id is 20 when
@@ -31,16 +32,61 @@ class Contact {
     private var mAvatarData: ByteArray? = null
     private var mIsStale: Boolean = false
     private var mQueryPending: Boolean = false
-    private val mIsMe: Boolean = false              // true if this contact is me!
+    private var mIsMe: Boolean = false              // true if this contact is me!
     private var mSendToVoicemail: Boolean = false   // true if this contact should not put up notification
     private var mPeopleReferenceUri: Uri? = null
 
+
+    constructor(number: String): this() {
+        init(number, "")
+    }
+
+    constructor(isMe: Boolean): this() {
+        init(SELF_ITEM_KEY, "")
+        mIsMe = isMe
+    }
+
+    private fun init(number: String, name: String) {
+        mContactMethodId = CONTACT_METHOD_ID_UNKNOWN.toLong()
+        mName = name
+        setNumber(number)
+        mNumberIsModified = false
+        mLabel = ""
+        mPersonId = 0
+        mPresenceResId = 0
+        mIsStale = true
+        mSendToVoicemail = false
+    }
 
     @Synchronized fun setRecipientId(id: Long) {
         mRecipientId = id
     }
 
+    @Synchronized fun setNumber(number: String) {
+        // If the number is not an email address, format is necessary.
+        // PhoneNumberUtils.formatNumber(number)
+        // mNumber = PhoneNumberUtils.formatNumber(number, mNumberE164, MmsApp.getApplication().getCurrentCountryIso())
+        // else
+        mNumber = number
+
+        mNumberIsModified = true
+    }
+
+    private fun notSynchronizedUpdateNameAndNumber() {
+        mNameAndNumber = formatNameAndNumber(mName!!, mNumber!!, mNumberE164!!)
+    }
+
     companion object {
+
+        val CONTACT_METHOD_TYPE_UNKNOWN = 0
+        val CONTACT_METHOD_TYPE_PHONE = 1
+        val CONTACT_METHOD_TYPE_EMAIL = 2
+        val CONTACT_METHOD_TYPE_SELF = 3       // the "Me" or profile contact
+        val TEL_SCHEME = "tel"
+        val CONTENT_SCHEME = "content"
+        private val CONTACT_METHOD_ID_UNKNOWN = -1
+        private val SELF_ITEM_KEY = "Self_Item_Key"
+
 
         private var sContactCache: ContactsCache? = null
 
@@ -50,6 +96,25 @@ class Contact {
             }
             sContactCache = ContactsCache(context)
             RecipientIdCache.init(context)
+        }
+
+        fun formatNameAndNumber(name: String, number: String, format: String): String {
+            // Format like this: Mike Cleron <(650) 555-1234>
+            //                   Erick Tseng <(650) 555-1212>
+            //                   Tutankhamun <tutank1341@gmail.com>
+            //                   (408) 555-1289
+
+            var formattedNumber = number
+            /*if (!Telephony.Mms.isEmailAddress(number)) {
+                formattedNumber = PhoneNumberUtils.formatNumber(number, numberE164,
+                        MessApp.getApplication().getCurrentCountryIso())
+            }*/
+
+            return if (!TextUtils.isEmpty(name) && name != number) {
+                "$name <$formattedNumber>"
+            } else {
+                formattedNumber
+            }
         }
 
         operator fun get(number: String, canBlock: Boolean = false): Contact =
@@ -64,7 +129,7 @@ class Contact {
 
 
 
-        fun get(number: String, isMe: Boolean = false, canBlock: Boolean): Contact {
+        operator fun get(number: String, isMe: Boolean = false, canBlock: Boolean): Contact {
             var number = number
             if (TextUtils.isEmpty(number)) {
                 number = ""
@@ -107,22 +172,28 @@ class Contact {
                 val isNotRegularPhoneNumber = isMe // Still need to check if is email address
                 val key = if (isNotRegularPhoneNumber) numberOrEmail else key(numberOrEmail, sStaticKeyBuffer)
 
-                val candidates = mContactsHash[key]
+                var candidates = mContactsHash[key]
                 if (candidates != null) {
                     candidates.forEach {
                        if (isNotRegularPhoneNumber) {
-                           if (numberOrEmail.equals(it.mNumber)) {
+                           if (numberOrEmail == it.mNumber) {
                                return it
                            }
                        } else {
-                           if () {
+                           if (PhoneNumberUtils.compare(numberOrEmail, it.mNumber)) {
                                return it
                            }
                        }
                     }
                 } else {
-
+                    candidates = ArrayList()
+                    mContactsHash.put(key, candidates)
                 }
+                val c = if (isMe)
+                    Contact(true)
+                else
+                    Contact(numberOrEmail)
+                candidates.add(c)
 
             }
             return Contact()
